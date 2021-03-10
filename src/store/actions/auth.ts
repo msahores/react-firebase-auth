@@ -48,6 +48,7 @@ export const login = (email: string, password: string) => async (
   } catch (error){
     dispatch({
       type: AUTH_FAIL,
+      payload: error
     })
     throw new Error(error)
   }
@@ -70,6 +71,7 @@ export const register = (email: string, password: string, userName: string = '')
   } catch (error) {
     dispatch({
       type: AUTH_FAIL,
+      payload: error
     })
     throw new Error(error) 
   }

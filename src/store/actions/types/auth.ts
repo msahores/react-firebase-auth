@@ -13,6 +13,7 @@ export interface AuthLoading {
 
 export interface AuthFail {
   type: typeof AUTH_FAIL;
+  payload: any
 }
 
 export interface AuthLoginSuccess {

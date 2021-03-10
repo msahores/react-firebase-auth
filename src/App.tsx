@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import ConditionalRoute from './components/ConditionalRoute';
 import Dashboard from './pages/Dashboard';
+import Loader from './pages/Loader';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Register from './pages/Register';
@@ -12,15 +13,16 @@ import { RootReducerT } from './store/reducers';
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootReducerT) => state.authState.user);
+  const auth = useSelector((state: RootReducerT) => state.authState);
+  const {user, loading} = auth;
 
   useEffect(() => {
     dispatch(handleAuthChange())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [dispatch])
 
   return (
   <>
+    {loading ? <Loader /> : (
     <Router>
       <div className={`container ${user ? '' : 'centered'}`}>
         <Switch>
@@ -48,10 +50,14 @@ const App = () => {
             component={Register} 
             redirectTo="/"
           />
-          <Route component={NotFound} />
+          <ConditionalRoute 
+            condition={!!user}
+            component={NotFound} 
+          />
         </Switch>
       </div>
     </Router>
+  )}
   </>
 )}
 

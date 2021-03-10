@@ -11,11 +11,14 @@ import {
 
 interface AuthStateI {
   loading: boolean,
-  user?: UserType | null  
+  user?: UserType | null ,
+  error?: {
+    message: string
+  } 
 }
 
 const initialState: AuthStateI = {
-  loading: false,
+  loading: true,
   user: null,
 };
 
@@ -27,6 +30,7 @@ const reducer = (
     case AUTH_FAIL:
       return {
         loading: false,
+        error: action.payload
       };
     case AUTH_LOADING:
       return {
